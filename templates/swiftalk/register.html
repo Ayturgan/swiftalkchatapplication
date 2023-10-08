@@ -1,0 +1,155 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, shrink-to-fit=no">
+    <title>SWIFTALK</title>
+
+    <!-- Template core CSS -->
+
+    <link href="{% static 'swiftalk/css/template.min.css' %}" rel="stylesheet">
+    <link href="{% static 'swiftalk/css/template.dark.min.css' %}" rel="stylesheet"
+          media="(prefers-color-scheme: dark)">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css">
+
+    <style>
+        .iti__country-list {
+            background-color: #2D3238;
+            border-color: #2D3238;
+        }
+
+        .iti {
+            display: block;
+        }
+
+    </style>
+</head>
+<!-- Head -->
+
+<body>
+
+<div class="layout">
+
+    <div class="container d-flex flex-column">
+        <div class="row align-items-center justify-content-center no-gutters min-vh-100">
+
+            <div class="col-12 col-md-5 col-lg-4 py-8 py-md-11">
+
+                <!-- Heading -->
+                <h1 class="font-bold text-center">Register</h1>
+
+                <!-- Text -->
+                <p class="text-center mb-6">Welcome to the official chat Swiftalk web-client.</p>
+
+                <!-- Form -->
+                <!-- Form -->
+                <form id="form" class="mb-6" method="post" action="{% url 'register' %}">
+                    {% csrf_token %}
+
+                    <!-- Phone Number -->
+                    <div class="form-group">
+                        <label for="phone" class="sr-only">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" class="form-control form-control-lg"
+                               style="width: 100%">
+                    </div>
+
+                    <!-- Username -->
+                    <div class="form-group">
+                        <label for="username" class="sr-only">Username</label>
+                        <input type="text" name="username" class="form-control form-control-lg" id="username"
+                               placeholder="Enter your username">
+                    </div>
+
+
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label for="password1" class="sr-only">Password</label>
+                        <input type="password" name="password1" class="form-control form-control-lg" id="password1"
+                               placeholder="Enter your password">
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="form-group">
+                        <label for="password2" class="sr-only">Confirm Password</label>
+                        <input type="password" name="password2" class="form-control form-control-lg" id="password2"
+                               placeholder="Confirm password">
+                    </div>
+
+                    {% if messages %}
+                        <div class="alert alert-danger">
+                            <ul>
+                                {% for message in messages %}
+                                    <li>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                    <!-- Submit -->
+                    <input type="hidden" id="full_phone" name="full_phone" value="">
+
+                    <p id="message"></p>
+                    <button id="submit-button" class="btn btn-lg btn-block btn-primary" type="submit">Register</button>
+                </form>
+
+
+                <!-- Text -->
+                <p class="text-center">
+                    Already have an account? <a href="{% url 'login' %}">Log In</a>.
+                </p>
+
+            </div>
+        </div> <!-- / .row -->
+    </div>
+
+</div><!-- .layout -->
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
+<script src="{% static 'swiftalk/js/libs/jquery.min.js' %}"></script>
+<script src="{% static 'swiftalk/js/bootstrap/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'swiftalk/js/plugins/plugins.bundle.js' %}"></script>
+<script src="{% static 'swiftalk/js/template.js' %}"></script>
+<script>
+
+
+    const input = document.querySelector("#phone");
+    const form = document.querySelector("#form");
+    const message = document.querySelector("#message");
+
+    const iti = window.intlTelInput(input, {
+        initialCountry: "auto",
+        onlyCountries: ["us", "ru", "kg", "kz"],
+        geoIpLookup: callback => {
+            fetch("https://ipapi.co/json")
+                .then(res => res.json())
+                .then(data => callback(data.country_code))
+                .catch(() => callback("us"));
+        },
+        hiddenInput: "full_phone",
+        utilsScript: "/intl-tel-input/js/utils.js?1695806485509" // just for formatting/placeholders etc
+    });
+
+    form.addEventListener("submit", (event) => {
+        const fullPhoneInput = document.querySelector("#full_phone");
+        fullPhoneInput.value = iti.getNumber(); // Заполняем скрытое поле с номером в международной форме
+        if (!iti.isValidNumber()) {
+            event.preventDefault(); // Прерываем событие отправки формы
+            message.innerHTML = "Invalid number. Please try again.";
+        }
+    });
+
+
+
+
+</script>
+
+<!-- Scripts -->
+</body>
+
+
+</html>
