@@ -25,9 +25,18 @@ class Thread(models.Model):
         unique_together = ['first_person', 'second_person']
 
 
+class ChatFile(models.Model):
+    file = models.FileField(upload_to='chat_files/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+
 class ChatMessage(models.Model):
     thread = models.ForeignKey(Thread, null=True, blank=True, on_delete=models.CASCADE,
                                related_name='chatmessage_thread')
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     message = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    file = models.ForeignKey(ChatFile, null=True, blank=True, on_delete=models.SET_NULL)
+
+

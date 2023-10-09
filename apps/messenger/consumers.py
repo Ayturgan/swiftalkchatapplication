@@ -2,7 +2,7 @@ import json
 from channels.consumer import AsyncConsumer
 from channels.db import database_sync_to_async
 
-from apps.messenger.models import Thread, ChatMessage
+from apps.messenger.models import Thread, ChatMessage, ChatFile
 from apps.users.models import CustomUser
 
 
@@ -21,16 +21,19 @@ class ChatConsumer(AsyncConsumer):
         })
 
     async def websocket_receive(self, event):
-        print('receive', event)
+        try:
+            print('receive', event)
+        except UnicodeEncodeError:
+            pass
         received_data = json.loads(event['text'])
         msg = received_data.get('message')
         sent_by_id = received_data.get('sent_by')
         send_to_id = received_data.get('send_to')
         thread_id = received_data.get('thread_id')
+        file_url = received_data.get('file_url')
 
-
-        if not msg:
-            print('Error:: empty message')
+        if not msg and not file_url:
+            print('Error:: empty message and no file')
             return False
 
         sent_by_user = await self.get_user_object(sent_by_id)
@@ -43,16 +46,18 @@ class ChatConsumer(AsyncConsumer):
         if not thread_obj:
             print('Error:: Thread id is incorrect')
 
-        chat_message = await self.create_chat_message(thread_obj, sent_by_user, msg)
+        chat_message = await self.create_chat_message(thread_obj, sent_by_user, msg, file_url)
 
         other_user_chat_room = f'user_chatroom_{send_to_id}'
         self_user = self.scope['user']
+
         response = {
             'message': msg,
             'sent_by': self_user.id,
             'thread_id': thread_id,
             'avatar': chat_message.user.avatar.url if chat_message.user.avatar else None,
-            'timestamp': str(chat_message.timestamp) if chat_message.timestamp else None
+            'timestamp': str(chat_message.timestamp) if chat_message.timestamp else None,
+            'file_url': chat_message.file.file.url if chat_message.file else None,
         }
 
         await self.channel_layer.group_send(
@@ -70,7 +75,6 @@ class ChatConsumer(AsyncConsumer):
                 'text': json.dumps(response)
             }
         )
-
     async def websocket_disconnect(self, event):
         print('disconnect', event)
 
@@ -100,5 +104,18 @@ class ChatConsumer(AsyncConsumer):
         return obj
 
     @database_sync_to_async
-    def create_chat_message(self, thread, user, msg):
-        return ChatMessage.objects.create(thread=thread, user=user, message=msg)  # Return the created message object
+    def create_chat_message(self, thread, user, msg, file_url=None):
+        chat_file = None
+        if file_url:
+            file_path = file_url.replace("/media/", "", 1)
+            try:
+                chat_file = ChatFile.objects.get(file=file_path)
+            except ChatFile.DoesNotExist:
+                print(f"Error: No ChatFile found for path {file_path}")
+
+        return ChatMessage.objects.create(
+            thread=thread,
+            user=user,
+            message=msg,
+            file=chat_file  # If chat_file is None, it will just be a message without a file.
+        )

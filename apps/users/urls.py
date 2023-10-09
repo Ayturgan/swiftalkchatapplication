@@ -10,4 +10,6 @@ urlpatterns = [
     path('reset-password/', views.reset_password, name='reset-password'),
 
     path('get_user_data/<int:user_id>/', views.get_user_data, name='get_user_data'),
+    #
+    # path('', views.update_profile, name='settings'),
 ]

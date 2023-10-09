@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages  # Добавьте импорт
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, UserUpdateForm
 from .models import CustomUser
 
 
@@ -61,3 +61,17 @@ def get_user_data(request, user_id):
         return JsonResponse(user_data)
     except CustomUser.DoesNotExist:
         return JsonResponse({'error': 'Пользователь не найден'}, status=404)
+
+
+def update_profile(request):
+    if request.method == "POST":
+        form = UserUpdateForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile has been updated!')
+            return redirect('home')
+    else:
+        form = UserUpdateForm(instance=request.user)
+    return render(request, 'swiftalk/settings.html', {'form': form})
+
+

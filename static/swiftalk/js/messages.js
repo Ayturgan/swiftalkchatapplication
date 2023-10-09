@@ -29,18 +29,18 @@ function fetchAndDisplayLatestMessages() {
         url: '/get_latest_messages/',
         method: 'GET',
         dataType: 'json',
-        success: function(data) {
+        success: function (data) {
             data.forEach(msg => {
                 console.log(msg);
 
-                newMessage(msg.message, sent_by_id, thread_id, msg.user.avatar, msg.timestamp);
+                newMessage(msg.message, sent_by_id, thread_id, msg.avatar, msg.timestamp);
             });
         }
     });
 }
 
 // Вы можете вызывать эту функцию регулярно для обновления чата, например, каждые 10 секунд:
-setInterval(fetchAndDisplayLatestMessages, 10000);
+// setInterval(fetchAndDisplayLatestMessages, 10000);
 
 function scrollToBottomOfActiveChat() {
     let activeChatContent = $('.messages-wrapper.is_active .msg_card_body');
@@ -52,11 +52,11 @@ function convertToTimeZone(timestamp) {
     return localTime.format("HH:mm");
 }
 
-
 socket.onopen = async function (e) {
     console.log('open', e);
     $(document).on('submit', '.chat-footer form', function (e) {
         e.preventDefault();
+
         let formId = $(this).attr('id');
         let threadId = formId.replace('send-message-form-', '');
         let inputMessageSelector = '#input-message-' + threadId;
@@ -64,17 +64,36 @@ socket.onopen = async function (e) {
 
         let send_to = get_active_other_user_id();
 
+        let fileUrl = null;
+        if (window.latestFileUrl) {
+            fileUrl = window.latestFileUrl;
+        }
+
+        if (!message && !window.latestFileUrl) {
+            return false;
+        }
+
         let data = {
             'message': message,
             'sent_by': USER_ID,
             'send_to': send_to,
             'thread_id': threadId,
+            'file_url': fileUrl
         };
-        data = JSON.stringify(data);
+        console.log("Data to be sent:", data);
+
+        if (window.latestFileUrl) {
+            data = JSON.stringify(data);
+        } else {
+            data = JSON.stringify(data);
+        }
+
         socket.send(data);
         $(inputMessageSelector).val('');
-    });
+        $('.dropzone-previews-js').empty();
 
+        window.latestFileUrl = null;
+    });
 };
 
 
@@ -86,8 +105,9 @@ socket.onmessage = async function (e) {
     let thread_id = data['thread_id'];
     let avatar = data['avatar'];
     let timestamp = convertToTimeZone(data['timestamp']);
-    newMessage(message, sent_by_id, thread_id, avatar, timestamp);
-    scrollToBottomOfActiveChat(); // Прокручиваем чат вниз после добавления нового сообщения
+    let fileUrl = data['file_url'];
+    newMessage(message, sent_by_id, thread_id, avatar, timestamp, fileUrl);
+    scrollToBottomOfActiveChat();
 };
 
 socket.onerror = async function (e) {
@@ -99,10 +119,18 @@ socket.onclose = async function (e) {
 };
 
 
-function newMessage(message, sent_by_id, thread_id, avatar, timestamp) {
+function newMessage(message, sent_by_id, thread_id, avatar, timestamp, fileUrl) {
     console.log("Timestamp received:", timestamp);
-    if ($.trim(message) === '') {
+    if ($.trim(message) === '' && !fileUrl) {
         return false;
+    }
+
+    if (fileUrl) {
+        if (fileUrl.endsWith(".jpg") || fileUrl.endsWith(".png") || fileUrl.endsWith(".jpeg")) {
+            message += `<br/><img src="${fileUrl}" alt="Uploaded Image" width="200" />`;
+        } else {
+            message += `<br/><a class=" btn btn-primary" href="${fileUrl}" download>Скачать файл</a>`;
+        }
     }
 
     let elements = getActiveElements();

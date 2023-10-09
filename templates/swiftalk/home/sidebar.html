@@ -1,5 +1,7 @@
 {% extends "swiftalk/base.html" %}
 {% load static %}
+{% load templatetags %}
+
 
 {% block sidebar %}
     {#<!-- Sidebar -->#}
@@ -103,7 +105,7 @@
                                                 <div class="media">
 
                                                     <div class="avatar avatar-online mr-5">
-                                                        <img class="avatar-img" src="assets\images\avatars\10.jpg"
+                                                        <img class="avatar-img" src="#"
                                                              alt="Anna Bridges">
                                                     </div>
 
@@ -141,7 +143,7 @@
 
 
                                                     <div class="avatar mr-5">
-                                                        <img class="avatar-img" src="assets\images\avatars\6.jpg"
+                                                        <img class="avatar-img" src="#"
                                                              alt="Brian Dawson">
                                                     </div>
 
@@ -179,7 +181,7 @@
 
 
                                                     <div class="avatar mr-5">
-                                                        <img class="avatar-img" src="assets\images\avatars\5.jpg"
+                                                        <img class="avatar-img" src="#"
                                                              alt="Leslie Sutton">
                                                     </div>
 
@@ -217,7 +219,7 @@
 
 
                                                     <div class="avatar mr-5">
-                                                        <img class="avatar-img" src="assets\images\avatars\4.jpg"
+                                                        <img class="avatar-img" src="#"
                                                              alt="Matthew Wiggins">
                                                     </div>
 
@@ -255,7 +257,7 @@
 
 
                                                     <div class="avatar mr-5">
-                                                        <img class="avatar-img" src="assets\images\avatars\7.jpg"
+                                                        <img class="avatar-img" src="#"
                                                              alt="Simon Hensley">
                                                     </div>
 
@@ -293,7 +295,7 @@
 
 
                                                     <div class="avatar mr-5">
-                                                        <img class="avatar-img" src="assets\images\avatars\9.jpg"
+                                                        <img class="avatar-img" src="#"
                                                              alt="William Wright">
                                                     </div>
 
@@ -325,7 +327,7 @@
 
 
                                                     <div class="avatar mr-5">
-                                                        <img class="avatar-img" src="assets\images\avatars\3.jpg"
+                                                        <img class="avatar-img" src="#"
                                                              alt="William Greer">
                                                     </div>
 
@@ -363,13 +365,13 @@
 
 
                                                     <div class="avatar mr-5">
-                                                        <img class="avatar-img" src="assets\images\avatars\7.jpg"
-                                                             alt="Zane Mayes">
+                                                        <img class="avatar-img" src="#"
+                                                             alt="Zane May">
                                                     </div>
 
 
                                                     <div class="media-body align-self-center mr-6">
-                                                        <h6 class="mb-0">Zane Mayes</h6>
+                                                        <h6 class="mb-0">Zane May</h6>
                                                         <small class="text-muted">last seen 3 days ago</small>
                                                     </div>
 
@@ -444,11 +446,6 @@
 
                             {#                                <!-- Friends -->#}
                             <nav class="mb-n6">
-
-                                <div class="mb-6">
-                                    <small class="text-uppercase">A</small>
-                                </div>
-
                                 {#                                    <!-- Friend -->#}
                                 <div class="card mb-6">
                                     <div class="card-body">
@@ -456,7 +453,7 @@
                                         <div class="media">
 
                                             <div class="avatar avatar-online mr-5">
-                                                <img class="avatar-img" src="assets\images\avatars\10.jpg"
+                                                <img class="avatar-img" src="#"
                                                      alt="Anna Bridges">
                                             </div>
 
@@ -486,37 +483,11 @@
                                         </div>
 
                                         {#                                            <!-- Link -->#}
-                                        <a href="../chat-2.html" class="stretched-link"></a>
+                                        <a href="#" class="stretched-link"></a>
 
                                     </div>
                                 </div>
                                 {#                                    <!-- Friend -->#}
-
-                                <div class="mb-6">
-                                    <small class="text-uppercase">B</small>
-                                </div>
-
-                                <div class="mb-6">
-                                    <small class="text-uppercase">L</small>
-                                </div>
-
-
-                                <div class="mb-6">
-                                    <small class="text-uppercase">M</small>
-                                </div>
-
-                                <div class="mb-6">
-                                    <small class="text-uppercase">S</small>
-                                </div>
-
-                                <div class="mb-6">
-                                    <small class="text-uppercase">W</small>
-                                </div>
-
-                                <div class="mb-6">
-                                    <small class="text-uppercase">Z</small>
-                                </div>
-
                             </nav>
                             {#                                <!-- Friends -->#}
 
@@ -537,101 +508,105 @@
                             <!-- Title -->
 
                             <!-- Search -->
-                            <form class="mb-6">
+                            <form action="/search" method="get" class="mb-6">
                                 <div class="input-group">
-                                    <input type="text" class="form-control form-control-lg"
-                                           placeholder="Search for messages or users..."
+                                    <input type="text" id="elastic" class="form-control form-control-lg"
+                                           placeholder="Search for users..."
                                            aria-label="Search for messages or users...">
                                     <div class="input-group-append">
-                                        <button class="btn btn-lg btn-ico btn-secondary btn-minimal" type="submit">
-                                            <i class="fe-search"></i>
-                                        </button>
+                                        {#                                        <button class="btn btn-lg btn-ico btn-secondary btn-minimal" type="submit">#}
+                                        {#                                            <i class="fe-search"></i>#}
+                                        {#                                        </button>#}
                                     </div>
                                 </div>
                             </form>
                             <!-- Search -->
-
-                            <!-- Chats -->
-                            <nav class="nav d-block list-discussions-js mb-n6 contacts">
-
-                                <!-- Chat link -->
-                                <a class="text-reset nav-link p-0 mb-6" data-toggle="tab" href="#tab-content-chat-group"
-                                   role="tab">
-                                    <div class="card card-active-listener">
-                                        <div class="card-body">
-
-                                            <div class="media">
-
-
-                                                <div class="avatar mr-5">
-                                                    <img class="avatar-img"
-                                                         src="{% static 'swiftalk/images/avatars/11.jpg' %}"
-                                                         alt="Bootstrap Themes">
-                                                </div>
-
-                                                <div class="media-body overflow-hidden">
-                                                    <div class="d-flex align-items-center mb-1">
-                                                        <h6 class="text-truncate mb-0 mr-auto">Bootstrap Themes</h6>
-                                                        <p class="small text-muted text-nowrap ml-4">10:42 am</p>
-                                                    </div>
-                                                    <div class="text-truncate">Anna Bridges: Hey, Maher! How are you?
-                                                        The
-                                                        weather is great isn't it?
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-
-                                        {#                                        <div class="badge badge-circle badge-primary badge-border-light badge-top-right">#}
-                                        {#                                            <span>3</span>#}
-                                        {#                                        </div>#}
-
-                                    </div>
-                                </a>
-                                <!-- Chat link -->
-
-                                 {% for thread in Threads %}
-                                <!-- Chat link -->
-                                <a class="text-reset nav-link p-0 mb-6 contact-li "
-                                   data-toggle="tab" href="#tab-content-chat-{{ thread.id }}"
-                                   role="tab">
-                                    <div class="card card-active-listener">
-                                        <div class="card-body">
-
-                                            <div class="media">
-
-                                                <div class="avatar avatar-online mr-5">
-                                                    <img class="avatar-img"
-                                                         src="{{ thread.first_person.avatar.url }}"
-                                                         alt="Anna Bridges">
-                                                </div>
-
-
-                                                <div class="media-body overflow-hidden">
-                                                    <div class="d-flex align-items-center mb-1">
-                                                        <h6 class="text-truncate mb-0 mr-auto">
-                                                            {% if thread.first_person == user %}
-                                                                <span>{{ thread.second_person.username }}</span>
-                                                            {% else %}
-                                                                <span>{{ thread.first_person.username }}</span>
+                            <div>
+                                {% for user in Users %}
+                                    {% if user != request.user %}
+                                        <!-- Chat link -->
+                                        <div class="mb-5 card card-active-listener user-search hide">
+                                            <div class="card-body p-3">
+                                                <div class="media">
+                                                    <div class="media-body overflow-hidden">
+                                                        <div class="d-flex align-items-center mb-1">
+                                                            <h6 class="text-truncate mb-0 mr-auto">
+                                                                @{{ user.username }}
+                                                            </h6>
+                                                            {% if user in UsersWithThreads %}
+                                                                {% with thread_id=UsersWithThreads|get_item:user %}
+                                                                    {% if thread_id %}
+                                                                        <a class="btn btn-lg btn-basic position-relative p-0 p-xl-3 ml-auto"
+                                                                           data-toggle="tab"
+                                                                           href="#tab-content-chat-{{ thread_id }}"
+                                                                           role="tab">
+                                                                            <i class="icon-lg fe-message-circle"></i>
+                                                                        </a>
+                                                                    {% else %}
+                                                                    <form method="post">
+                                                                        {% csrf_token %}
+                                                                        <input type="hidden" name="user_id_get" value="{{ user.id }}">
+                                                                        <button type="submit" name="form_type" value="create_chat"
+                                                                        class="btn btn-lg btn-block btn-basic d-flex
+                                                                        align-items-center">
+                                                                        <i class='icon-lg fe-plus-square'></i>
+                                                                        </button>
+                                                                    </form>
+                                                                    {% endif %}
+                                                                {% endwith %}
                                                             {% endif %}
-                                                        </h6>
-                                                        <p class="small text-muted text-nowrap ml-4">10:42 am</p>
+
+                                                        </div>
                                                     </div>
-{#                                                    <div class="text-truncate">is typing<span#}
-{#                                                            class='typing-dots'><span>.</span><span>.</span><span>.</span></span>#}
-{#                                                    </div>#}
                                                 </div>
+
                                             </div>
-
                                         </div>
-                                    </div>
-                                </a>
-
+                                    {% endif %}
                                 {% endfor %}
 
+                            </div>
+                            <!-- Chats -->
+                            <nav class="nav d-block list-discussions-js mb-n6 contacts">
+                                {% for thread in Threads %}
+                                    <!-- Chat link -->
+                                    <a class="text-reset nav-link p-0 mb-6 contact-li "
+                                       data-toggle="tab" href="#tab-content-chat-{{ thread.id }}"
+                                       role="tab">
+                                        <div class="card card-active-listener">
+                                            <div class="card-body">
+
+                                                <div class="media">
+
+                                                    <div class="avatar avatar-online mr-5">
+                                                        <img class="avatar-img"
+                                                             src="{% if thread.first_person == user %}
+                                                                    {{ thread.second_person.avatar.url }}
+                                                                {% else %}
+                                                                    {{ thread.first_person.avatar.url }}
+                                                                {% endif %}" alt="ava">
+                                                    </div>
+
+
+                                                    <div class="media-body overflow-hidden">
+                                                        <div class="d-flex align-items-center mb-1">
+                                                            <h6 class="text-truncate mb-0 mr-auto">
+                                                                {% if thread.first_person == user %}
+                                                                    <span>{{ thread.second_person.username }}</span>
+                                                                {% else %}
+                                                                    <span>{{ thread.first_person.username }}</span>
+                                                                {% endif %}
+                                                            </h6>
+                                                            <p class="small text-muted text-nowrap ml-4">10:42 am</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </a>
+
+                                {% endfor %}
                             </nav>
                             {#<!-- Chats -->#}
 
@@ -666,73 +641,68 @@
                             <!-- Search -->
 
                             <!-- Card -->
-                            <div class="card mb-6">
-                                <div class="card-body">
-                                    <div class="media">
+                            {% if Wallet %}
+                                <div class="card mb-6">
+                                    <div class="card-body">
+                                        <div class="media">
 
-                                        <div class="media-body">
-                                            <div class="d-flex align-items-center mb-1">
-                                                <h4 class="text-truncate mb-0 mr-auto">Balance</h4>
-                                                <div class="dropdown">
-                                                    <a class="text-muted opacity-60 ml-3" href="#"
-                                                       data-toggle="dropdown"
-                                                       aria-haspopup="true" aria-expanded="false">
-                                                        <i class="icon-md fe-more-vertical"></i>
-                                                    </a>
+                                            <div class="media-body">
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <h4 class="text-truncate mb-0 mr-auto">Balance</h4>
+                                                    <div class="dropdown">
+                                                        <a class="text-muted opacity-60 ml-3" href="#"
+                                                           data-toggle="dropdown"
+                                                           aria-haspopup="true" aria-expanded="false">
+                                                            <i class="icon-md fe-more-vertical"></i>
+                                                        </a>
 
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                                            Edit <span class="ml-auto fe-edit-3"></span>
-                                                        </a>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                                            Share <span class="ml-auto fe-share-2"></span>
-                                                        </a>
-                                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                                            Delete <span class="ml-auto fe-trash-2"></span>
-                                                        </a>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                                                Edit <span class="ml-auto fe-edit-3"></span>
+                                                            </a>
+                                                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                                                Share <span class="ml-auto fe-share-2"></span>
+                                                            </a>
+                                                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                                                Delete <span class="ml-auto fe-trash-2"></span>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <h2>{{ Wallet.balance }} som</h2>
+
                                     </div>
-                                    <h2>$10,100,276</h2>
-
-                                </div>
-                            </div>
-
-
-                            <div class="form-row">
-                                <div class="col">
-                                    <!-- Button -->
-                                    <button type="button"
-                                            class="btn btn-lg btn-block btn-basic d-flex align-items-center">
-                                        Pay
-                                        <span class="fe-arrow-up-right ml-auto"></span>
-
-                                    </button>
                                 </div>
 
-                                <div class="col">
-                                    <!-- Button -->
-                                    <button type="button"
-                                            class="btn btn-lg btn-block btn-basic d-flex align-items-center">
-                                        Top Up
-                                        <span class="fe-plus ml-auto"></span>
 
-                                    </button>
+                                <div class="form-row">
+
+                                    <div class="col">
+                                        <!-- Button -->
+                                        <button type="button"
+                                                class="btn btn-lg btn-block btn-basic d-flex align-items-center"
+                                                data-toggle="modal" data-target="#top-up-money">
+                                            Top Up
+                                            <span class="fe-plus ml-auto"></span>
+
+                                        </button>
+                                    </div>
+
+                                    <div class="col">
+                                        <!-- Button -->
+                                        <button type="button"
+                                                class="btn btn-lg btn-block btn-basic d-flex align-items-center"
+                                                data-toggle="modal" data-target="#transfer-money">
+                                            Transfer
+                                            <span class="fe-arrow-right ml-auto"></span>
+
+                                        </button>
+                                    </div>
                                 </div>
-
-                                <div class="col">
-                                    <!-- Button -->
-                                    <button type="button"
-                                            class="btn btn-lg btn-block btn-basic d-flex align-items-center">
-                                        Transfer
-                                        <span class="fe-arrow-right ml-auto"></span>
-
-                                    </button>
-                                </div>
-                            </div>
-
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -748,34 +718,17 @@
                             <h2 class="font-bold mb-6">Profile</h2>
                             <!-- Title -->
 
-                            <!-- Search -->
-                            <form class="mb-6">
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-control-lg"
-                                           placeholder="Search for messages or users..."
-                                           aria-label="Search for messages or users...">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-lg btn-ico btn-secondary btn-minimal" type="submit">
-                                            <i class="fe-search"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                            <!-- Search -->
-
                             <!-- Card -->
                             <div class="card mb-6">
                                 <div class="card-body">
                                     <div class="text-center py-6">
                                         <!-- Photo -->
                                         <div class="avatar avatar-xl mb-5">
-                                            <img class="avatar-img" src="assets\images\avatars\12.jpg" alt="">
+                                            <img class="avatar-img" src="{{ user.avatar.url }}" alt="">
                                         </div>
 
-                                        <h5>Matthew Wiggins</h5>
-                                        <p class="text-muted">Bootstrap is an open source toolkit for developing web
-                                            with
-                                            HTML.</p>
+                                        <h5>{{ user.name }}</h5>
+                                        <p class="text-muted">{{ user.bio }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -785,21 +738,13 @@
                             <div class="card mb-6">
                                 <div class="card-body">
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group-item px-0 py-6">
-                                            <div class="media align-items-center">
-                                                <div class="media-body">
-                                                    <p class="small text-muted mb-0">Country</p>
-                                                    <p>Warsaw, Poland</p>
-                                                </div>
-                                                <i class="text-muted icon-sm fe-globe"></i>
-                                            </div>
-                                        </li>
+
 
                                         <li class="list-group-item px-0 py-6">
                                             <div class="media align-items-center">
                                                 <div class="media-body">
                                                     <p class="small text-muted mb-0">Phone</p>
-                                                    <p>+39 02 87 21 43 19</p>
+                                                    <p>{{ user.full_phone }}</p>
                                                 </div>
                                                 <i class="text-muted icon-sm fe-mic"></i>
                                             </div>
@@ -809,19 +754,9 @@
                                             <div class="media align-items-center">
                                                 <div class="media-body">
                                                     <p class="small text-muted mb-0">Email</p>
-                                                    <p>anna@gmail.com</p>
+                                                    <p>{{ user.email }}</p>
                                                 </div>
                                                 <i class="text-muted icon-sm fe-mail"></i>
-                                            </div>
-                                        </li>
-
-                                        <li class="list-group-item px-0 py-6">
-                                            <div class="media align-items-center">
-                                                <div class="media-body">
-                                                    <p class="small text-muted mb-0">Time</p>
-                                                    <p>10:03 am</p>
-                                                </div>
-                                                <i class="text-muted icon-sm fe-clock"></i>
                                             </div>
                                         </li>
                                     </ul>
@@ -836,7 +771,7 @@
                                         <li class="list-group-item px-0 py-6">
                                             <a href="#" class="media text-muted">
                                                 <div class="media-body align-self-center">
-                                                    Twitter
+                                                    {{ user.twitter }}
                                                 </div>
                                                 <i class="icon-sm fe-twitter"></i>
                                             </a>
@@ -845,7 +780,7 @@
                                         <li class="list-group-item px-0 py-6">
                                             <a href="#" class="media text-muted">
                                                 <div class="media-body align-self-center">
-                                                    Facebook
+                                                    {{ user.facebook }}
                                                 </div>
                                                 <i class="icon-sm fe-facebook"></i>
                                             </a>
@@ -854,17 +789,37 @@
                                         <li class="list-group-item px-0 py-6">
                                             <a href="#" class="media text-muted">
                                                 <div class="media-body align-self-center">
-                                                    Github
+                                                    {{ user.github }}
                                                 </div>
                                                 <i class="icon-sm fe-github"></i>
                                             </a>
                                         </li>
+                                        <li class="list-group-item px-0 py-6">
+                                            <a href="#" class="media text-muted">
+                                                <div class="media-body align-self-center">
+                                                    {{ user.instagram }}
+                                                </div>
+                                                <i class="icon-sm fe-instagram"></i>
+                                            </a>
+                                        </li>
+
                                     </ul>
                                 </div>
                             </div>
                             <!-- Card -->
 
                             <div class="form-row">
+                                <div class="col">
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <button type="submit"
+                                                class="btn btn-lg btn-block btn-basic d-flex align-items-center"
+                                                name="form_type" value="delete_acc">
+                                            Delete Account
+                                            <span class="fe-user ml-auto"></span>
+                                        </button>
+                                    </form>
+                                </div>
 
 
                                 <div class="col">
@@ -896,4 +851,47 @@
 
 
 {% block content %}
+{% endblock %}
+
+{% block script %}
+    <script>
+        console.log("Search script loaded");
+        document.querySelector("#elastic").oninput = function () {
+            let val = this.value.trim();
+            let elasticItems = document.querySelectorAll(".user-search");
+            if (val !== "") {
+                elasticItems.forEach(function (elem) {
+                    let h6 = elem.querySelector("h6");
+                    if (h6.innerText.search(val) === -1) {
+                        elem.classList.add("hide");
+                    } else {
+                        elem.classList.remove("hide");
+                        let str = h6.innerText;
+                        h6.innerHTML = insertMark(
+                            str,
+                            h6.innerText.search(val),
+                            val.length
+                        );
+                    }
+                });
+            } else {
+                elasticItems.forEach(function (elem) {
+                    elem.classList.add("hide");
+                });
+            }
+        };
+
+
+        function insertMark(string, pos, len) {
+            return (
+                string.slice(0, pos) +
+                "<mark>" +
+                string.slice(pos, pos + len) +
+                "</mark>" +
+                string.slice(pos + len)
+            );
+        }
+
+
+    </script>
 {% endblock %}

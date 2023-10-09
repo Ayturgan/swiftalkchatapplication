@@ -11,3 +11,10 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = ['username', 'password1', 'password2', 'full_phone']
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['email', 'name', 'full_phone', 'bio', 'avatar']
+
